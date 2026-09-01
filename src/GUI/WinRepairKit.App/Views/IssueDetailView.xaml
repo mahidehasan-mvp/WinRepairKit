@@ -1,0 +1,245 @@
+<UserControl x:Class="WinRepairKit.App.Views.IssueDetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:WinRepairKit.App.ViewModels"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance vm:IssueDetailViewModel}"
+             d:DesignHeight="850" d:DesignWidth="1050">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="32,20,32,32">
+        <StackPanel MaxWidth="1100" HorizontalAlignment="Stretch">
+
+            <!-- Top Breadcrumb & Title Bar -->
+            <Grid Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Command="{Binding GoBackCommand}" 
+                            Background="Transparent" BorderThickness="0" Padding="6" Margin="0,0,10,0" VerticalAlignment="Center">
+                        <TextBlock Text="&#xE72B;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets, Segoe UI Symbol" 
+                                   FontSize="16" Foreground="{DynamicResource BrushOnSurface}" />
+                    </Button>
+                    <TextBlock Text="Issue Details" FontSize="18" FontWeight="SemiBold" 
+                               Foreground="{DynamicResource BrushOnSurface}" VerticalAlignment="Center" />
+                </StackPanel>
+            </Grid>
+
+            <!-- Hero Header Card with left vertical accent bar -->
+            <Border Background="{DynamicResource BrushSurfaceLowest}" 
+                    BorderBrush="{DynamicResource BrushBorder}" 
+                    BorderThickness="1" 
+                    CornerRadius="8" 
+                    Margin="0,0,0,24">
+                <Grid>
+                    <!-- 4px Left Accent Bar -->
+                    <Border Width="4" HorizontalAlignment="Left" Background="{DynamicResource BrushTertiaryContainer}" CornerRadius="4,0,0,4" />
+
+                    <Grid Margin="24,20,24,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Icon container -->
+                        <Border Grid.Column="0" Width="44" Height="44" CornerRadius="8" 
+                                Background="{DynamicResource BrushSurfaceLow}" 
+                                BorderBrush="{DynamicResource BrushBorder}"
+                                BorderThickness="1"
+                                Margin="0,0,16,0" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding HeroIconGlyph}" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets, Segoe UI Symbol" 
+                                       FontSize="22" Foreground="{DynamicResource BrushTertiary}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+
+                        <!-- Title and Badge -->
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                <TextBlock Text="{Binding ModuleName}" FontSize="20" FontWeight="SemiBold" 
+                                           Foreground="{DynamicResource BrushOnSurface}" Margin="0,0,12,0" VerticalAlignment="Center" />
+                                
+                                <Border Background="{DynamicResource BrushSurfaceLow}" 
+                                        BorderBrush="{DynamicResource BrushTertiary}" 
+                                        BorderThickness="1" 
+                                        CornerRadius="3" 
+                                        Padding="8,2" 
+                                        VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding RiskLevelBadgeText}" FontSize="10" FontWeight="Bold" 
+                                               Foreground="{DynamicResource BrushTertiary}" />
+                                </Border>
+                            </StackPanel>
+                            
+                            <TextBlock Text="{Binding ModuleSubtitle}" FontSize="13" Foreground="{DynamicResource BrushOnSurfaceVariant}" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- Main 2-Column Content Grid matching UI UX Mockup -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="340" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Left Column (What we found & Details) -->
+                <StackPanel Grid.Column="0" Margin="0,0,24,0">
+
+                    <!-- What we found Card -->
+                    <Border Background="{DynamicResource BrushSurfaceLowest}" 
+                            BorderBrush="{DynamicResource BrushBorder}" 
+                            BorderThickness="1" 
+                            CornerRadius="8" 
+                            Padding="24" 
+                            Margin="0,0,0,20">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets, Segoe UI Symbol" 
+                                           FontSize="16" Foreground="{DynamicResource BrushOnSurfaceVariant}" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                <TextBlock Text="What we found" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource BrushOnSurface}" VerticalAlignment="Center" />
+                            </StackPanel>
+                            
+                            <TextBlock Text="{Binding WhatWeFoundText}" FontSize="13" Foreground="{DynamicResource BrushOnSurfaceVariant}" LineHeight="22" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Details Card (2x2 Grid + Tech Expander) -->
+                    <Border Background="{DynamicResource BrushSurfaceLowest}" 
+                            BorderBrush="{DynamicResource BrushBorder}" 
+                            BorderThickness="1" 
+                            CornerRadius="8" 
+                            Padding="24" 
+                            Margin="0,0,0,20">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                                <TextBlock Text="&#xE943;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets, Segoe UI Symbol" 
+                                           FontSize="16" Foreground="{DynamicResource BrushOnSurfaceVariant}" Margin="0,0,8,0" VerticalAlignment="Center" />
+                                <TextBlock Text="Details" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource BrushOnSurface}" VerticalAlignment="Center" />
+                            </StackPanel>
+
+                            <UniformGrid Columns="2" Margin="0,0,0,16">
+                                <!-- Location -->
+                                <Border Background="{DynamicResource BrushSurfaceLow}" BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1" CornerRadius="4" Padding="14,10" Margin="0,0,8,8">
+                                    <StackPanel>
+                                        <TextBlock Text="Location" FontSize="11" Foreground="{DynamicResource BrushOutline}" Margin="0,0,0,4" />
+                                        <TextBlock Text="{Binding LocationText}" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource BrushOnSurface}" />
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Affected Items -->
+                                <Border Background="{DynamicResource BrushSurfaceLow}" BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1" CornerRadius="4" Padding="14,10" Margin="0,0,0,8">
+                                    <StackPanel>
+                                        <TextBlock Text="Affected Items" FontSize="11" Foreground="{DynamicResource BrushOutline}" Margin="0,0,0,4" />
+                                        <TextBlock Text="{Binding AffectedItemsText}" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource BrushOnSurface}" />
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Total Size -->
+                                <Border Background="{DynamicResource BrushSurfaceLow}" BorderBrush="{DynamicResource BrushBorder}" BorderThickness="1" CornerRadius="4" Padding="14,10" Margin="0,0,8,0">
+                                    <StackPanel>
+                                        <TextBlock Text="Total Size" FontSize="11" Foreground="{DynamicResource BrushOutline}" Margin="0,0,0,4" />
+                                        <TextBlock Text="{Binding TotalSizeText}" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource BrushOnSurface}" />
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Access Problem -->
+                                <Border Background="{DynamicResource BrushSurfaceLow}" BorderBrush="{DynamicResource BrushTertiary}" BorderThickness="1" CornerRadius="4" Padding="14,10">
+                                    <StackPanel>
+                                        <TextBlock Text="Access Problem" FontSize="11" Foreground="{DynamicResource BrushTertiary}" Margin="0,0,0,4" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xE7BA;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets, Segoe UI Symbol" 
+                                                       FontSize="12" Foreground="{DynamicResource BrushTertiary}" Margin="0,0,6,0" VerticalAlignment="Center" />
+                                            <TextBlock Text="Yes" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource BrushTertiary}" VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </UniformGrid>
+
+                            <!-- Show technical details button -->
+                            <Button Command="{Binding ToggleTechDetailsCommand}" 
+                                    Background="Transparent" BorderThickness="0" HorizontalAlignment="Left" Padding="0,4" Margin="0,0,0,8">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE70D;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets, Segoe UI Symbol" 
+                                               FontSize="12" Foreground="{DynamicResource BrushPrimary}" Margin="0,0,6,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding ToggleButtonText}" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource BrushPrimary}" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+
+                            <!-- Technical Details Panel -->
+                            <Border Visibility="{Binding IsTechDetailsExpanded, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                    Background="{DynamicResource BrushSurfaceHigh}" 
+                                    BorderBrush="{DynamicResource BrushBorder}" 
+                                    BorderThickness="1" 
+                                    CornerRadius="4" 
+                                    Padding="14">
+                                <TextBox Text="{Binding TechDetailsContent}" 
+                                         FontFamily="Consolas, JetBrains Mono" 
+                                         FontSize="12" 
+                                         Foreground="{DynamicResource BrushOnSurfaceVariant}" 
+                                         Background="Transparent" 
+                                         BorderThickness="0" 
+                                         IsReadOnly="True" 
+                                         TextWrapping="Wrap" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- Right Column (Recommended Action) -->
+                <Border Grid.Column="1" 
+                        Background="{DynamicResource BrushSurfaceLowest}" 
+                        BorderBrush="{DynamicResource BrushBorder}" 
+                        BorderThickness="1" 
+                        CornerRadius="8" 
+                        Padding="24" 
+                        VerticalAlignment="Top">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                            <!-- Vector Wrench icon -->
+                            <Path Width="14" Height="14" Stretch="Uniform" Fill="{DynamicResource BrushPrimary}" Margin="0,0,8,0" VerticalAlignment="Center"
+                                  Data="M 12.7,2.3 C 11.3,0.9 9.2,0.6 7.5,1.5 L 10,4 L 8.5,5.5 L 6,3 C 5.1,4.7 5.4,6.8 6.8,8.2 C 7.9,9.3 9.4,9.7 10.8,9.4 L 15.4,14 C 15.8,14.4 16.4,14.4 16.8,14 C 17.2,13.6 17.2,13 16.8,12.6 L 12.2,8 C 12.5,6.6 12.1,5.1 11,4 Z M 1,16 L 4,13 L 3,12 L 0,15 C -0.3,15.3 -0.3,15.7 0,16 C 0.3,16.3 0.7,16.3 1,16 Z" />
+                            <TextBlock Text="Recommended Action" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource BrushOnSurface}" VerticalAlignment="Center" />
+                        </StackPanel>
+                        
+                        <TextBlock Text="{Binding RecommendedActionText}" FontSize="13" Foreground="{DynamicResource BrushOnSurfaceVariant}" LineHeight="20" TextWrapping="Wrap" Margin="0,0,0,24" />
+
+                        <!-- Review Repair Plan Button -->
+                        <Button Command="{Binding ReviewRepairPlanCommand}" 
+                                Background="{DynamicResource BrushPrimary}" 
+                                Foreground="{DynamicResource BrushPrimaryForeground}" 
+                                FontSize="13" FontWeight="Bold" 
+                                Padding="16,10" 
+                                Height="40"
+                                BorderThickness="0" 
+                                Margin="0,0,0,10">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <!-- Vector Checklist Icon -->
+                                <Path Width="14" Height="14" Stretch="Uniform" 
+                                      Fill="{DynamicResource BrushPrimaryForeground}" 
+                                      Stroke="{DynamicResource BrushPrimaryForeground}" StrokeThickness="1.2"
+                                      Margin="0,0,8,0" VerticalAlignment="Center"
+                                      Data="M 3,1 L 13,1 C 13.6,1 14,1.4 14,2 L 14,14 C 14,14.6 13.6,15 13,15 L 3,15 C 2.4,15 2,14.6 2,14 L 2,2 C 2,1.4 2.4,1 3,1 Z M 4,4 L 5.5,5.5 L 8,3 M 9.5,4 L 12,4 M 4,8 L 5.5,9.5 L 8,7 M 9.5,8 L 12,8 M 4,12 L 12,12" />
+                                <TextBlock Text="Review Repair Plan" Foreground="{DynamicResource BrushPrimaryForeground}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+
+                        <!-- Ignore Issue Button -->
+                        <Button Command="{Binding GoBackCommand}" 
+                                Content="Ignore Issue" 
+                                Background="{DynamicResource BrushSurfaceLowest}" 
+                                BorderBrush="{DynamicResource BrushOutlineVariant}" 
+                                BorderThickness="1" 
+                                Foreground="{DynamicResource BrushOnSurfaceVariant}" 
+                                FontSize="13" FontWeight="SemiBold" 
+                                Padding="16,8" 
+                                Height="38" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

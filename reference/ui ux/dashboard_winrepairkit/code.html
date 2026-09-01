@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WinRepairKit - Overview</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-error-container": "#93000a",
+                      "surface": "#f9f9f9",
+                      "surface-container": "#eeeeee",
+                      "inverse-surface": "#2f3131",
+                      "on-secondary-container": "#007306",
+                      "tertiary-fixed": "#ffdbd1",
+                      "primary-container": "#0078d4",
+                      "secondary": "#006e06",
+                      "on-primary-fixed": "#001c39",
+                      "on-surface-variant": "#404752",
+                      "surface-container-highest": "#e2e2e2",
+                      "surface-container-low": "#f3f3f3",
+                      "on-primary-fixed-variant": "#004883",
+                      "background": "#f9f9f9",
+                      "tertiary-container": "#da3c03",
+                      "surface-container-lowest": "#ffffff",
+                      "outline": "#717783",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-background": "#1a1c1c",
+                      "on-tertiary-fixed-variant": "#872100",
+                      "primary-fixed-dim": "#a3c9ff",
+                      "primary-fixed": "#d3e3ff",
+                      "surface-dim": "#dadada",
+                      "on-secondary-fixed": "#002200",
+                      "secondary-container": "#91f77e",
+                      "inverse-primary": "#a3c9ff",
+                      "tertiary-fixed-dim": "#ffb5a0",
+                      "on-tertiary-container": "#ffffff",
+                      "surface-bright": "#f9f9f9",
+                      "on-secondary-fixed-variant": "#005303",
+                      "surface-tint": "#0060ab",
+                      "on-surface": "#1a1c1c",
+                      "outline-variant": "#c0c7d4",
+                      "surface-variant": "#e2e2e2",
+                      "on-primary-container": "#ffffff",
+                      "secondary-fixed-dim": "#79dd68",
+                      "inverse-on-surface": "#f1f1f1",
+                      "on-primary": "#ffffff",
+                      "on-tertiary-fixed": "#3b0900",
+                      "tertiary": "#af2e00",
+                      "secondary-fixed": "#94fa81",
+                      "error": "#ba1a1a",
+                      "error-container": "#ffdad6",
+                      "on-error": "#ffffff",
+                      "primary": "#005faa",
+                      "surface-container-high": "#e8e8e8"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "stack-gap": "8px",
+                      "container-padding": "32px",
+                      "gutter": "16px",
+                      "section-gap": "24px",
+                      "sidebar-width": "280px"
+              },
+              "fontFamily": {
+                      "section-title": [
+                              "Inter"
+                      ],
+                      "label-bold": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "page-title": [
+                              "Inter"
+                      ],
+                      "body-base": [
+                              "Inter"
+                      ],
+                      "mono-data": [
+                              "jetbrainsMono"
+                      ]
+              },
+              "fontSize": {
+                      "section-title": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-bold": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "page-title": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-base": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "mono-data": [
+                              "12px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400; }
+        .nav-active { @apply text-primary bg-surface-container-high border-l-4 border-primary; }
+        .nav-inactive { @apply text-on-surface-variant hover:bg-surface-container-low; }
+    </style>
+</head>
+<body class="bg-background text-on-surface h-full flex antialiased">
+<!-- SideNavBar -->
+<nav class="docked w-[280px] h-screen left-0 top-0 border-r border-[#000000]/[0.08] bg-surface flex flex-col py-6 shrink-0 fixed z-50">
+<div class="px-container-padding mb-8">
+<h1 class="font-page-title text-page-title text-primary">WinRepairKit</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">System Utility</p>
+</div>
+<ul class="flex-1 flex flex-col gap-1 font-label-bold text-label-bold">
+<!-- Active: Overview -->
+<li>
+<a class="flex items-center gap-3 px-6 py-3 nav-active transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+                    Overview
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-6 py-3 nav-inactive transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">troubleshoot</span>
+                    Scan
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-6 py-3 nav-inactive transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">report_problem</span>
+                    Issues
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-6 py-3 nav-inactive transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">history</span>
+                    History
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-6 py-3 nav-inactive transition-colors duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+                    Settings
+                </a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Area -->
+<main class="ml-[280px] flex-1 flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center h-16 px-container-padding sticky top-0 z-40 bg-surface/80 backdrop-blur-md border-b border-[#000000]/[0.05]">
+<div class="font-section-title text-section-title text-on-surface">Overview</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="bg-primary hover:bg-primary-container text-white px-4 py-2 rounded-DEFAULT font-label-bold text-label-bold transition-colors">
+                    Scan Now
+                </button>
+</div>
+</header>
+<!-- Canvas -->
+<div class="flex-1 p-container-padding max-w-[1200px] w-full mx-auto">
+<!-- PC Status Section -->
+<section class="bg-surface-container-lowest border border-[#000000]/[0.08] rounded-xl p-6 mb-section-gap flex items-center justify-between">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-full bg-tertiary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[32px] text-tertiary" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div>
+<h2 class="font-section-title text-section-title text-on-surface mb-1">Attention needed</h2>
+<p class="font-body-base text-body-base text-on-surface-variant">2 issues found that require your review.</p>
+<p class="font-body-sm text-body-sm text-outline mt-2">Last scan: Today, 20:42</p>
+</div>
+</div>
+<button class="bg-primary hover:bg-primary-container text-white px-6 py-3 rounded-DEFAULT font-label-bold text-label-bold transition-colors shadow-sm">
+                    Scan My PC
+                </button>
+</section>
+<!-- Module Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter mb-section-gap">
+<!-- Recycle Bin Card -->
+<div class="bg-surface-container-lowest border border-[#000000]/[0.08] rounded-xl p-6 hover:shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-shadow">
+<div class="flex items-start gap-4 mb-4">
+<span class="material-symbols-outlined text-tertiary mt-1" style="font-variation-settings: 'FILL' 1;">delete_sweep</span>
+<div>
+<h3 class="font-label-bold text-label-bold text-on-surface">Recycle Bin</h3>
+<p class="font-body-sm text-body-sm text-tertiary mt-1">Needs repair</p>
+</div>
+</div>
+<div class="h-px w-full bg-[#000000]/[0.05] my-4"></div>
+<p class="font-body-base text-body-base text-on-surface-variant">Corrupted indexing detected in system trash container.</p>
+</div>
+<!-- Temp Files Card -->
+<div class="bg-surface-container-lowest border border-[#000000]/[0.08] rounded-xl p-6 hover:shadow-[0_2px_8px_rgba(0,0,0,0.04)] transition-shadow">
+<div class="flex items-start gap-4 mb-4">
+<span class="material-symbols-outlined text-tertiary mt-1" style="font-variation-settings: 'FILL' 1;">folder_zip</span>
+<div>
+<h3 class="font-label-bold text-label-bold text-on-surface">Temp Files</h3>
+<p class="font-body-sm text-body-sm text-tertiary mt-1">4.2 GB</p>
+</div>
+</div>
+<div class="h-px w-full bg-[#000000]/[0.05] my-4"></div>
+<p class="font-body-base text-body-base text-on-surface-variant">Accumulated cache and temporary installer files.</p>
+</div>
+</div>
+<!-- Recommended Actions List -->
+<section class="bg-surface-container-lowest border border-[#000000]/[0.08] rounded-xl overflow-hidden">
+<div class="px-6 py-4 bg-surface-container-low border-b border-[#000000]/[0.05]">
+<h3 class="font-label-bold text-label-bold text-on-surface">Recommended Actions</h3>
+</div>
+<div class="divide-y divide-[#000000]/[0.05]">
+<!-- Action Row 1 -->
+<div class="flex items-center justify-between p-6 hover:bg-surface-container-low/50 transition-colors">
+<div class="flex items-center gap-4">
+<input checked="" class="w-4 h-4 text-primary border-outline rounded-sm focus:ring-primary" type="checkbox"/>
+<div>
+<p class="font-body-base text-body-base text-on-surface">Recycle Bin permission problem</p>
+<p class="font-mono-data text-mono-data text-outline mt-1">C:\$Recycle.Bin\S-1-5-21-...</p>
+</div>
+</div>
+<button class="px-4 py-2 border border-outline-variant hover:bg-surface-container-low text-on-surface font-label-bold text-label-bold rounded-DEFAULT transition-colors">
+                            Review repair
+                        </button>
+</div>
+<!-- Action Row 2 -->
+<div class="flex items-center justify-between p-6 hover:bg-surface-container-low/50 transition-colors">
+<div class="flex items-center gap-4">
+<input checked="" class="w-4 h-4 text-primary border-outline rounded-sm focus:ring-primary" type="checkbox"/>
+<div>
+<p class="font-body-base text-body-base text-on-surface">Temporary files can be cleaned</p>
+<p class="font-mono-data text-mono-data text-outline mt-1">%temp% &amp; \Windows\Temp</p>
+</div>
+</div>
+<button class="px-4 py-2 border border-outline-variant hover:bg-surface-container-low text-on-surface font-label-bold text-label-bold rounded-DEFAULT transition-colors">
+                            Review cleanup
+                        </button>
+</div>
+</div>
+</section>
+</div>
+</main>
+</body></html>

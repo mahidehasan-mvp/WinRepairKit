@@ -1,0 +1,314 @@
+<UserControl x:Class="WinRepairKit.App.Views.ScanningView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:WinRepairKit.App.ViewModels"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance vm:ScanningViewModel}"
+             d:DesignHeight="800" d:DesignWidth="920">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+        <!-- Style for Outer Pulse Ring: Pulses ONLY while scanning -->
+        <Style x:Key="PulseRingStyle" TargetType="Border">
+            <Setter Property="Opacity" Value="0" />
+            <Setter Property="BorderBrush" Value="#A3C9FF" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="CornerRadius" Value="62" />
+            <Setter Property="Width" Value="124" />
+            <Setter Property="Height" Value="124" />
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <ScaleTransform ScaleX="1.0" ScaleY="1.0" />
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsScanning}" Value="True">
+                    <Setter Property="Opacity" Value="0.7" />
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard x:Name="PulseStoryboard">
+                            <Storyboard RepeatBehavior="Forever">
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                 From="0.95" To="1.08" Duration="0:0:1.4" AutoReverse="True">
+                                    <DoubleAnimation.EasingFunction>
+                                        <SineEase EasingMode="EaseInOut" />
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                 From="0.95" To="1.08" Duration="0:0:1.4" AutoReverse="True">
+                                    <DoubleAnimation.EasingFunction>
+                                        <SineEase EasingMode="EaseInOut" />
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <StopStoryboard BeginStoryboardName="PulseStoryboard" />
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Style for Spinning Arc Ring: Spins ONLY while scanning -->
+        <Style x:Key="SpinningArcStyle" TargetType="Border">
+            <Setter Property="Width" Value="116" />
+            <Setter Property="Height" Value="116" />
+            <Setter Property="CornerRadius" Value="58" />
+            <Setter Property="BorderThickness" Value="3" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <RotateTransform Angle="0" />
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsScanning}" Value="True">
+                    <Setter Property="BorderBrush" Value="{DynamicResource BrushPrimary}" />
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard x:Name="SpinStoryboard">
+                            <Storyboard RepeatBehavior="Forever">
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                                                 From="0" To="360" Duration="0:0:2.5" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <StopStoryboard BeginStoryboardName="SpinStoryboard" />
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsScanCompleted}" Value="True">
+                    <Setter Property="BorderBrush" Value="{DynamicResource BrushSecondary}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Style for Magnifying Glass TextBlock: Sweeps and wobbles ONLY while scanning -->
+        <Style x:Key="AnimatedGlassStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe Fluent Icons, Segoe MDL2 Assets, Segoe UI Symbol" />
+            <Setter Property="FontSize" Value="38" />
+            <Setter Property="Foreground" Value="{DynamicResource BrushPrimary}" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+            <Setter Property="Text" Value="&#xE721;" />
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <TransformGroup>
+                        <TranslateTransform X="0" Y="0" />
+                        <RotateTransform Angle="0" />
+                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                    </TransformGroup>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsScanning}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard x:Name="GlassMotionStoryboard">
+                            <Storyboard RepeatBehavior="Forever">
+                                <!-- Horizontal Sweep -->
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)"
+                                                 From="-14" To="14" Duration="0:0:1.6" AutoReverse="True">
+                                    <DoubleAnimation.EasingFunction>
+                                        <SineEase EasingMode="EaseInOut" />
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+
+                                <!-- Vertical Motion -->
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.Y)"
+                                                 From="-10" To="10" Duration="0:0:1.1" AutoReverse="True">
+                                    <DoubleAnimation.EasingFunction>
+                                        <SineEase EasingMode="EaseInOut" />
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+
+                                <!-- Tilt / Wobble -->
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[1].(RotateTransform.Angle)"
+                                                 From="-16" To="16" Duration="0:0:2.0" AutoReverse="True">
+                                    <DoubleAnimation.EasingFunction>
+                                        <SineEase EasingMode="EaseInOut" />
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <StopStoryboard BeginStoryboardName="GlassMotionStoryboard" />
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsScanCompleted}" Value="True">
+                    <Setter Property="Text" Value="&#xE73E;" />
+                    <Setter Property="Foreground" Value="{DynamicResource BrushSecondary}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="32,24,32,32">
+        <StackPanel MaxWidth="900" HorizontalAlignment="Center">
+
+            <!-- Title & Subtitle Header -->
+            <StackPanel Margin="0,0,0,32" HorizontalAlignment="Center">
+                <TextBlock Text="System Diagnostics" FontSize="26" FontWeight="SemiBold" Foreground="{DynamicResource BrushOnSurface}" HorizontalAlignment="Center" Margin="0,0,0,6" />
+                <TextBlock Text="Inspect and analyze Windows modules, permissions, storage containers, and service states." FontSize="14" Foreground="{DynamicResource BrushOnSurfaceVariant}" HorizontalAlignment="Center" />
+            </StackPanel>
+
+            <!-- Main Progress Card -->
+            <Border Background="{DynamicResource BrushSurfaceLowest}" 
+                    BorderBrush="{DynamicResource BrushBorder}" 
+                    BorderThickness="1" 
+                    CornerRadius="12" 
+                    Padding="32" 
+                    Margin="0,0,0,24">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="280" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Left: Circular Visual Indicator -->
+                    <Border Grid.Column="0" BorderBrush="{DynamicResource BrushBorder}" BorderThickness="0,0,1,0" Padding="0,0,28,0" VerticalAlignment="Center">
+                        <StackPanel HorizontalAlignment="Center">
+
+                            <!-- Circular Radar Canvas -->
+                            <Grid Width="130" Height="130" Margin="0,0,0,18" HorizontalAlignment="Center">
+
+                                <!-- Outer Pulsing Ring -->
+                                <Border Style="{StaticResource PulseRingStyle}" />
+
+                                <!-- Base Background Circle -->
+                                <Border Width="116" Height="116" CornerRadius="58" 
+                                        Background="{DynamicResource BrushSurfaceLow}" 
+                                        BorderBrush="{DynamicResource BrushBorder}" 
+                                        BorderThickness="3" />
+
+                                <!-- Rotating Spinning Dash Ring -->
+                                <Border Style="{StaticResource SpinningArcStyle}" />
+
+                                <!-- Magnifying Glass Icon -->
+                                <TextBlock Style="{StaticResource AnimatedGlassStyle}" />
+
+                            </Grid>
+
+                            <TextBlock Text="Status" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource BrushPrimary}" HorizontalAlignment="Center" Margin="0,0,0,2" />
+                            <TextBlock Text="{Binding StatusSummary}" FontSize="13" FontFamily="Consolas, JetBrains Mono" Foreground="{DynamicResource BrushOnSurfaceVariant}" HorizontalAlignment="Center" Margin="0,0,0,8" />
+                            <TextBlock Text="{Binding ActiveCheckText}" FontSize="11" Foreground="{DynamicResource BrushOutline}" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Right: Operation Modules Checklist -->
+                    <StackPanel Grid.Column="1" Margin="28,0,0,0" VerticalAlignment="Center">
+                        <TextBlock Text="Operation Modules" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource BrushOnSurface}" Margin="0,0,0,16" />
+
+                        <ItemsControl ItemsSource="{Binding CheckItems}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{DynamicResource BrushSurfaceLow}" 
+                                            BorderBrush="{DynamicResource BrushBorder}" 
+                                            BorderThickness="1" 
+                                            CornerRadius="6" 
+                                            Padding="14,10" 
+                                            Margin="0,0,0,10">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Check icon -->
+                                            <Border Grid.Column="0" Width="22" Height="22" CornerRadius="11" 
+                                                    Background="{DynamicResource BrushSurfaceLowest}" Margin="0,0,12,0" VerticalAlignment="Center">
+                                                <TextBlock Text="&#xE73E;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets, Segoe UI Symbol" 
+                                                           FontSize="12" Foreground="{DynamicResource BrushSecondary}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </Border>
+
+                                            <TextBlock Grid.Column="1" Text="{Binding Title}" FontSize="13" Foreground="{DynamicResource BrushOnSurface}" VerticalAlignment="Center" />
+
+                                            <Border Grid.Column="2" Background="{DynamicResource BrushSurfaceLowest}" CornerRadius="4" Padding="6,2" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding ResultTag}" FontSize="11" FontWeight="Bold" FontFamily="Consolas, JetBrains Mono" Foreground="{Binding StatusBadgeColor}" />
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Bottom Actions Area -->
+            <StackPanel HorizontalAlignment="Center">
+
+                <!-- 1. Idle State -> Prominent "Scan Now" Button with High Contrast Dynamic Foreground -->
+                <Button Visibility="{Binding IsIdle, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                        Command="{Binding RunFullScanCommand}" 
+                        Background="{DynamicResource BrushPrimary}" 
+                        Foreground="{DynamicResource BrushPrimaryForeground}" 
+                        FontSize="14" FontWeight="Bold" 
+                        Padding="32,10" 
+                        Height="44"
+                        BorderThickness="0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE721;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets, Segoe UI Symbol" 
+                                   Foreground="{DynamicResource BrushPrimaryForeground}" 
+                                   FontSize="16" Margin="0,0,10,0" VerticalAlignment="Center" />
+                        <TextBlock Text="Scan Now" Foreground="{DynamicResource BrushPrimaryForeground}" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+
+                <!-- 2. Scanning Active -> Cancel Scan Button -->
+                <Button Visibility="{Binding IsScanning, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                        Command="{Binding CancelScanCommand}" 
+                        Content="Cancel Scan" 
+                        Background="Transparent" 
+                        BorderBrush="{DynamicResource BrushOutlineVariant}" 
+                        BorderThickness="1" 
+                        Foreground="{DynamicResource BrushOnSurfaceVariant}" 
+                        FontSize="13" FontWeight="SemiBold" 
+                        Padding="24,8" 
+                        Height="38" />
+
+                <!-- 3. Scan Finished -> Review Issues / Scan Again / Back to Overview -->
+                <StackPanel Visibility="{Binding IsScanCompleted, Converter={StaticResource BooleanToVisibilityConverter}}" Orientation="Horizontal">
+                    <Button Command="{Binding ReviewIssuesCommand}" 
+                            Content="Review Detected Issues" 
+                            Background="{DynamicResource BrushPrimary}" 
+                            Foreground="{DynamicResource BrushPrimaryForeground}" 
+                            FontSize="13" FontWeight="Bold" 
+                            Padding="24,10" 
+                            Height="40"
+                            BorderThickness="0" 
+                            Margin="0,0,12,0" />
+
+                    <Button Command="{Binding RunFullScanCommand}" 
+                            Content="Scan Again" 
+                            Background="{DynamicResource BrushSurfaceLowest}" 
+                            BorderBrush="{DynamicResource BrushOutlineVariant}" 
+                            BorderThickness="1" 
+                            Foreground="{DynamicResource BrushOnSurface}" 
+                            FontSize="13" FontWeight="SemiBold" 
+                            Padding="20,10" 
+                            Height="40" 
+                            Margin="0,0,12,0" />
+
+                    <Button Command="{Binding BackToOverviewCommand}" 
+                            Content="Back to Overview" 
+                            Background="{DynamicResource BrushSurfaceLowest}" 
+                            BorderBrush="{DynamicResource BrushOutlineVariant}" 
+                            BorderThickness="1" 
+                            Foreground="{DynamicResource BrushOnSurface}" 
+                            FontSize="13" FontWeight="SemiBold" 
+                            Padding="20,10" 
+                            Height="40" />
+                </StackPanel>
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

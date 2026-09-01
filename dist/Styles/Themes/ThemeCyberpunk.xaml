@@ -1,0 +1,52 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Cyberpunk 2077 Night City High-Tech HUD Palette -->
+    <Color x:Key="PrimaryColor">#FCEE09</Color>          <!-- Cyberpunk Yellow -->
+    <Color x:Key="PrimaryContainerColor">#00F0FF</Color> <!-- Neon Cyan -->
+    <Color x:Key="SecondaryColor">#00FF9F</Color>        <!-- Neon Matrix Green -->
+    <Color x:Key="SecondaryContainerColor">#003822</Color>
+    <Color x:Key="TertiaryColor">#FF003C</Color>         <!-- Arasaka Crimson -->
+    <Color x:Key="TertiaryContainerColor">#7A001C</Color>
+    <Color x:Key="ErrorColor">#FF003C</Color>
+    <Color x:Key="ErrorContainerColor">#4D0012</Color>
+
+    <Color x:Key="SurfaceColor">#0F101A</Color>          <!-- Deep Night Black Base -->
+    <Color x:Key="SurfaceLowestColor">#07080E</Color>    <!-- Pitch Dark Tile -->
+    <Color x:Key="SurfaceLowColor">#161826</Color>       <!-- Dark Cyber Glass -->
+    <Color x:Key="SurfaceContainerColor">#1E2033</Color> <!-- High Tech Container -->
+    <Color x:Key="SurfaceHighColor">#262A42</Color>      <!-- Elevated HUD Panel -->
+
+    <!-- Solid Color Brushes for Cyberpunk 2077 Theme -->
+    <SolidColorBrush x:Key="BrushPrimary" Color="#FCEE09" />
+    <SolidColorBrush x:Key="BrushPrimaryForeground" Color="#05060A" /> <!-- Pitch Black text on Cyberpunk Yellow button -->
+    <SolidColorBrush x:Key="BrushPrimaryContainer" Color="#00F0FF" />
+    <SolidColorBrush x:Key="BrushSecondary" Color="#00FF9F" />
+    <SolidColorBrush x:Key="BrushSecondaryContainer" Color="#003822" />
+    <SolidColorBrush x:Key="BrushTertiary" Color="#FF003C" />
+    <SolidColorBrush x:Key="BrushTertiaryContainer" Color="#7A001C" />
+    <SolidColorBrush x:Key="BrushError" Color="#FF003C" />
+    <SolidColorBrush x:Key="BrushErrorContainer" Color="#4D0012" />
+
+    <SolidColorBrush x:Key="BrushSurface" Color="#0F101A" />
+    <SolidColorBrush x:Key="BrushSurfaceLowest" Color="#07080E" />
+    <SolidColorBrush x:Key="BrushSurfaceLow" Color="#161826" />
+    <SolidColorBrush x:Key="BrushSurfaceContainer" Color="#1E2033" />
+    <SolidColorBrush x:Key="BrushSurfaceHigh" Color="#262A42" />
+
+    <SolidColorBrush x:Key="BrushOnSurface" Color="#FCEE09" />
+    <SolidColorBrush x:Key="BrushOnSurfaceVariant" Color="#00F0FF" />
+    <SolidColorBrush x:Key="BrushOutline" Color="#FF003C" />
+    <SolidColorBrush x:Key="BrushOutlineVariant" Color="#00F0FF" />
+    <SolidColorBrush x:Key="BrushBorder" Color="#6600F0FF" /> <!-- Glowing Cyan Border -->
+    <SolidColorBrush x:Key="BrushActiveNavBg" Color="#24283D" />
+    <SolidColorBrush x:Key="BrushSidebarHover" Color="#1A1C2C" />
+
+    <!-- Theme Dropdown Specific Brushes (Cyberpunk High Contrast) -->
+    <SolidColorBrush x:Key="BrushComboBg" Color="#161826" />          <!-- Dark HUD Container -->
+    <SolidColorBrush x:Key="BrushComboBorder" Color="#00F0FF" />      <!-- Glowing Cyan Outline -->
+    <SolidColorBrush x:Key="BrushComboText" Color="#FCEE09" />        <!-- Crisp Yellow on Dark Slate -->
+    <SolidColorBrush x:Key="BrushComboPopupBg" Color="#0F101A" />     <!-- Dark Background Popup -->
+    <SolidColorBrush x:Key="BrushComboItemHover" Color="#24283D" />   <!-- Cyberpunk Hover Tile -->
+    <SolidColorBrush x:Key="BrushComboLabel" Color="#00F0FF" />       <!-- Cyan Neon Label -->
+</ResourceDictionary>
