@@ -31,6 +31,7 @@ function Get-DriveRecycleBinInfo {
             RecycleBinPath    = $rbPath
             Exists            = $false
             IsAccessible      = $false
+            IsReparsePoint    = $false
             TotalItemCount    = 0
             InaccessibleCount = 0
             CorruptedCount    = 0
@@ -45,6 +46,8 @@ function Get-DriveRecycleBinInfo {
 
             # Signal 1: Root container readability & ACL check
             try {
+                $rootItem = Get-Item -LiteralPath $rbPath -Force -ErrorAction Stop
+                $info.IsReparsePoint = ($rootItem.Attributes -band [System.IO.FileAttributes]::ReparsePoint) -ne 0
                 $rootAcl = Get-Acl -LiteralPath $rbPath -ErrorAction Stop
                 $info.IsAccessible = $true
             }
@@ -53,7 +56,7 @@ function Get-DriveRecycleBinInfo {
                 $info.AccessErrors += "Access Denied reading root ACL: $($_.Exception.Message)"
             }
 
-            # Signal 2: Enumerate SID subfolders
+            # Signal 2: Enumerate SID subfolders and hidden/system files
             try {
                 $sidDirs = [System.IO.Directory]::GetDirectories($rbPath)
                 $sidList = @()
@@ -83,13 +86,13 @@ function Get-DriveRecycleBinInfo {
                         }
                     }
                     catch [System.UnauthorizedAccessException] {
-                        # Multi-signal confirmation: Directory is locked and cannot be enumerated
+                        # Multi-signal confirmation: Directory is locked and cannot be enumerated normally
                         $sidInfo.IsAccessible = $false
                         $sidInfo.HasPermissionLock = $true
                         $sidInfo.Error = "UnauthorizedAccessException"
                         $info.AccessErrors += "Access denied inside SID directory '$sidName'"
 
-                        # Attempt inspection via cmd dir for file count
+                        # Deep inspection via cmd dir /a /s for hidden/system entries
                         try {
                             $dirEntries = cmd.exe /c "dir `"$sidDir`" /a /s 2>&1"
                             $inaccessibleCount = 0
